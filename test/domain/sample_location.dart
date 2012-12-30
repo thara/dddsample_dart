@@ -1,6 +1,6 @@
 library sample_location;
 
-import "package:dddsample_dart/src/domain/location.dart";
+import "package:dddsample_dart/domain/location.dart";
 
 final Location HONGKONG = new Location(new UnLocode("CNHKG"), "Hongkong");
 final Location MELBOURNE = new Location(new UnLocode("AUMEL"), "Melbourne");

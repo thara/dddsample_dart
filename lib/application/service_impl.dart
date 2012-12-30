@@ -1,15 +1,15 @@
 library service_impl;
 
-import "service.dart";
+import 'service.dart';
 
 import 'package:logging/logging.dart';
 
-import 'package:dddsample_dart/src/domain/cargo.dart';
-import 'package:dddsample_dart/src/domain/handling.dart';
-import 'package:dddsample_dart/src/domain/location.dart';
-import 'package:dddsample_dart/src/domain/voyage.dart';
+import 'package:dddsample_dart/domain/cargo.dart';
+import 'package:dddsample_dart/domain/handling.dart';
+import 'package:dddsample_dart/domain/location.dart';
+import 'package:dddsample_dart/domain/voyage.dart';
 
-import 'package:dddsample_dart/src/domain/service.dart';
+import 'package:dddsample_dart/domain/service.dart';
 
 /***/
 class BookingServiceImpl implements BookingService {

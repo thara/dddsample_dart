@@ -1,9 +1,9 @@
 library application;
 
-import 'package:dddsample_dart/src/domain/cargo.dart';
-import 'package:dddsample_dart/src/domain/handling.dart';
-import 'package:dddsample_dart/src/domain/location.dart';
-import 'package:dddsample_dart/src/domain/voyage.dart';
+import 'package:dddsample_dart/domain/cargo.dart';
+import 'package:dddsample_dart/domain/handling.dart';
+import 'package:dddsample_dart/domain/location.dart';
+import 'package:dddsample_dart/domain/voyage.dart';
 
 /**
  * a way to let other parts of the system know about events that have occurred.
