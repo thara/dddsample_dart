@@ -1,0 +1,149 @@
+part of cargo;
+
+class Delivery implements ValueObject<Delivery>{
+
+  final HandlingEvent lastEvent;
+  final Date calculatedAt;
+  
+  TransportStatus transportStatus;
+  Location _lastKnownLocation;
+  Voyage _currentVoyage;
+  bool _misdirected;
+  Date eta;
+  HandlingActivity nextExpectedActivity;
+  bool isUnloadedAtDestination;
+  RoutingStatus routingStatus;
+  
+  static const Date ETA_UNKNOWN = null;
+  static const HandlingActivity NO_ACTIVITY = null;
+  
+  Delivery._(this.lastEvent, Itinerary itinerary, RouteSpecification routeSpec) 
+      : this.calculatedAt = new Date.now(){
+    
+    this._misdirected = _calculateMisdirectionStatus(itinerary);
+    this.routingStatus = _calculateRoutingStatus(itinerary, routeSpec);
+    this.transportStatus = _calculateTransportStatus();
+    this._lastKnownLocation = lastEvent != null ? lastEvent.location : null;
+    this._currentVoyage = _calculateCurrentVoyage();
+    this.eta = _calculateEta(itinerary);
+    this.nextExpectedActivity = _calculateNextExpectedActivity(routeSpec, itinerary);
+    this.isUnloadedAtDestination = _calculateUnloadedAtDestination(routeSpec);
+  }
+  
+  factory Delivery.derivedFrom(RouteSpecification routeSpec, Itinerary itinerary, HandlingHistory handlingHistory) {
+    Expect.isNotNull(routeSpec, "Route Specification is required.");
+    Expect.isNotNull(handlingHistory, "Delivary history is required.");
+    
+    var lastEvent = handlingHistory.mostRecentlyCompletedEvent();
+    return new Delivery._(lastEvent, itinerary, routeSpec);
+  }
+  
+  Location get lastKnownLocation => 
+      _lastKnownLocation == null ? Location.UNKNOWN : _lastKnownLocation;
+  
+  Voyage get currentVoyage => _currentVoyage == null ? Voyage.NONE : _currentVoyage;
+  
+  bool get isMisdirected => _misdirected;
+  
+  bool _onTrack() => routingStatus == RoutingStatus.ROUTED && !_misdirected;
+  
+  
+  bool sameValueAs(Delivery other) {
+    return false;
+  }
+  
+  bool _calculateMisdirectionStatus(Itinerary itinerary) 
+    => lastEvent == null ? false : !itinerary.isExpected(lastEvent);
+  
+  RoutingStatus _calculateRoutingStatus(
+    Itinerary itinerary, RouteSpecification routeSpec) {
+    
+    if (itinerary == null) return RoutingStatus.NOT_ROUTED;
+    
+    return routeSpec.isSatisfiedBy(itinerary) 
+        ? RoutingStatus.ROUTED : RoutingStatus.MISROUTED;
+  }
+  
+  TransportStatus _calculateTransportStatus() {
+    if (lastEvent == null) return TransportStatus.NOT_RECEIVED;
+    
+    switch (lastEvent.type) {
+      case HandlingEventType.LOAD :
+        return TransportStatus.ONBOARD_CARRIER;
+      case HandlingEventType.UNLOAD :
+      case HandlingEventType.RECEIVE :
+      case HandlingEventType.CUSTOMS :
+        return TransportStatus.IN_PORT;
+      case HandlingEventType.CLAIM:
+        return TransportStatus.CLAIMED;
+      default :
+        return TransportStatus.UNKNOWN;
+    }
+  }
+  
+  Voyage _calculateCurrentVoyage() {
+    if (this.transportStatus == TransportStatus.ONBOARD_CARRIER && lastEvent != null) {
+      return lastEvent.voyage;
+    } else {
+      return null;
+    }
+  }
+    
+  Date _calculateEta(Itinerary itinerary) =>
+    _onTrack() ? itinerary.finalArrivalDate : ETA_UNKNOWN;
+  
+  HandlingActivity _calculateNextExpectedActivity(RouteSpecification routeSpec, Itinerary itinerary) {
+    
+    if (!_onTrack()) return NO_ACTIVITY;
+    
+    if (lastEvent == null)
+      return new HandlingActivity(HandlingEventType.RECEIVE, routeSpec.origin);
+    
+    var eventTypes = new Map<HandlingEventType, Function>();
+    
+    eventTypes[HandlingEventType.LOAD] = () {
+      for (var leg in itinerary.legs) {
+        if (leg.loadLocation.sameIdentityAs(lastEvent.location)) {
+          return new HandlingActivity(HandlingEventType.UNLOAD, leg.unloadLocation, leg.voyage);
+        }
+      }
+      return NO_ACTIVITY;
+    };
+    
+    eventTypes[HandlingEventType.UNLOAD] = () {
+      for (var iter = itinerary.legs.iterator(); iter.hasNext; ) {
+        Leg leg = iter.next();
+        if (leg.unloadLocation.sameIdentityAs(lastEvent.location)) {
+          Leg nextLeg = iter.next();
+          return new HandlingActivity(HandlingEventType.LOAD, nextLeg.loadLocation, nextLeg.voyage);
+        } else {
+          return new HandlingActivity(HandlingEventType.CLAIM, leg.unloadLocation);
+        }
+      }
+      return NO_ACTIVITY;
+    };
+    
+    eventTypes[HandlingEventType.RECEIVE] = () {
+      Leg firstLeg = itinerary.legs.first;
+      return new HandlingActivity(HandlingEventType.LOAD, firstLeg.loadLocation, firstLeg.voyage);
+    };
+    
+    return eventTypes.containsKey(lastEvent.type) ? NO_ACTIVITY : eventTypes[lastEvent.type]();
+  }
+  
+  bool _calculateUnloadedAtDestination(RouteSpecification routeSpec) {
+    return lastEvent != null &&
+      HandlingEventType.UNLOAD.sameValueAs(lastEvent.type) &&
+      routeSpec.destination.sameIdentityAs(lastEvent.location);
+  }
+
+  /**
+   * 
+   */
+  Delivery updateOnRouting(RouteSpecification routeSpec, Itinerary itinerary) {
+   Expect.isNotNull(routeSpec, "Route Specification is required.");
+   
+   return new Delivery._(this.lastEvent, itinerary, routeSpec);
+  }
+}
+

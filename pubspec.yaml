@@ -1,0 +1,5 @@
+name:  dddsample_dart
+description:  A sample application
+
+dependencies:
+  unittest: any
