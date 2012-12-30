@@ -144,3 +144,10 @@ class HandlingEventFactory {
     return location;
   }
 }
+
+abstract class HandlingEventRepository {
+  
+  void store(HandlingEvent event);
+                  
+  HandlingHistory lookupHandlingHistoryOfCargo(TrackingId trackingId);  
+}

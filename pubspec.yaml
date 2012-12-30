@@ -3,3 +3,4 @@ description:  A sample application
 
 dependencies:
   unittest: any
+  logging: any
