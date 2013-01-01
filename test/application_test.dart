@@ -8,7 +8,6 @@ import 'package:dddsample_dart/domain/voyage.dart';
 import 'package:dddsample_dart/domain/service.dart';
 
 import 'package:dddsample_dart/application/service.dart';
-import 'package:dddsample_dart/application/service_impl.dart';
 
 import './domain/sample_location.dart';
 import './domain/sample_voyage.dart';
@@ -17,7 +16,7 @@ main() {
   
   group('Booking Service', () {
     
-    BookingServiceImpl bookingService;
+    BookingService bookingService;
     CargoReposMock cargoRepos;
     LocationReposMock locationRepos;
     RoutingServiceMock routingService;
@@ -27,7 +26,7 @@ main() {
       locationRepos = new LocationReposMock();
       routingService = new RoutingServiceMock();
       
-      bookingService = new BookingServiceImpl(cargoRepos, locationRepos, routingService);
+      bookingService = new BookingService(cargoRepos, locationRepos, routingService);
     });
     
     tearDown(() {
@@ -53,7 +52,7 @@ main() {
   
   group("Handling Event Service", () {
     
-    HandlingEventServiceImpl service;
+    HandlingEventService service;
     
     CargoReposMock cargoRepos;
     VoyageReposMock voyageRepos;
@@ -72,7 +71,7 @@ main() {
       appEvents = new AppEventsMock();
       
       HandlingEventFactory hef = new HandlingEventFactory(cargoRepos, voyageRepos, locationRepos);
-      service = new HandlingEventServiceImpl(handlingEventRepos, appEvents, hef);
+      service = new HandlingEventService(handlingEventRepos, appEvents, hef);
     });
     
     tearDown(() {
