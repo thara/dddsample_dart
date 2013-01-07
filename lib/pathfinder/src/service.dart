@@ -12,10 +12,10 @@ abstract class GraphTraversalService {
   
   List<TransitPath> findShortestPath(
       String originUnLocode,
-      String destinationUnLocode);
+      String destinationUnLocode, [Map<String, String> limitations]);
 }
 
-class _GraphTraversalServiceImpl {
+class _GraphTraversalServiceImpl implements GraphTraversalService {
 
   static const int ONE_MIN_MS = 1000 * 60;
   static const int ONE_DAY_MS = ONE_MIN_MS * 60 * 24;
@@ -27,7 +27,8 @@ class _GraphTraversalServiceImpl {
   
   List<TransitPath> findShortestPath(
                       String originUnLocode,
-                      String destinationUnLocode) {
+                      String destinationUnLocode,
+                      [Map<String, String> limitation]) {
     
     var date = nextDate(new Date.now());
     
