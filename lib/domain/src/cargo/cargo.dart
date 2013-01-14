@@ -72,16 +72,18 @@ abstract class CargoRepository {
 //TODO Why no enum?
 class TransportStatus implements ValueObject<TransportStatus> {
   
-  static const NOT_RECEIVED = const TransportStatus._(0);
-  static const IN_PORT = const TransportStatus._(1);
-  static const ONBOARD_CARRIER = const TransportStatus._(2);
-  static const CLAIMED = const TransportStatus._(3);
-  static const UNKNOWN = const TransportStatus._(4);
+  static const NOT_RECEIVED = const TransportStatus._(0, "NOT_RECEIVED");
+  static const IN_PORT = const TransportStatus._(1, "IN_PORT");
+  static const ONBOARD_CARRIER = const TransportStatus._(2, "ONBOARD_CARRIER");
+  static const CLAIMED = const TransportStatus._(3, "CLAIMED");
+  static const UNKNOWN = const TransportStatus._(4, "UNKNOWN");
   
   final num _value;
-  const TransportStatus._(this._value);
+  final String _name;
+  const TransportStatus._(this._value, this._name);
   
   bool sameValueAs(TransportStatus other) => _value == other._value;
+  String get name => this._name;
 }
 
 class RoutingStatus implements ValueObject<RoutingStatus> {

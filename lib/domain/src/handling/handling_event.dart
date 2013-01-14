@@ -72,16 +72,17 @@ Registered on: ${registrationTime}
 
 class HandlingEventType implements ValueObject<HandlingEventType> {
   
-  static const LOAD = const HandlingEventType._(0, true);
-  static const UNLOAD = const HandlingEventType._(1, true);
-  static const RECEIVE = const HandlingEventType._(2, false);
-  static const CLAIM = const HandlingEventType._(3, false);
-  static const CUSTOMS = const HandlingEventType._(4, false);
+  static const LOAD = const HandlingEventType._(0, true, "LOAD");
+  static const UNLOAD = const HandlingEventType._(1, true, "UNLOAD");
+  static const RECEIVE = const HandlingEventType._(2, false, "RECEIVE");
+  static const CLAIM = const HandlingEventType._(3, false, "CLAIM");
+  static const CUSTOMS = const HandlingEventType._(4, false, "CUSTOMS");
   
   final num _value;
   final bool requiresVoyage;
+  final String name;
   
-  const HandlingEventType._(this._value, this.requiresVoyage);
+  const HandlingEventType._(this._value, this.requiresVoyage, this.name);
   
   bool get prohibitsVoyage => !requiresVoyage;
   
@@ -94,6 +95,8 @@ class HandlingEventType implements ValueObject<HandlingEventType> {
     if (other is! HandlingEventType) return false;
     return sameValueAs(other as HandlingEventType);
   }
+  
+  String toString() => name;
 }
 
 class HandlingEventFactory {

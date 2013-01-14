@@ -47,10 +47,11 @@ class Delivery implements ValueObject<Delivery>{
   
   bool _onTrack() => routingStatus == RoutingStatus.ROUTED && !_misdirected;
   
-  
   bool sameValueAs(Delivery other) {
     return false;
   }
+  
+  Date estimatedTimeOfArrival() => eta != ETA_UNKNOWN ? eta : ETA_UNKNOWN;
   
   bool _calculateMisdirectionStatus(Itinerary itinerary) 
     => lastEvent == null ? false : !itinerary.isExpected(lastEvent);
