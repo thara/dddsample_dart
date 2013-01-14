@@ -13,8 +13,8 @@ class CargoTrackingController {
    * Pass a cargo has [command] to [onSuccess].
    */
   void findCargo(TrackCommand command,
-              onSuccess(CargoTrackingViewAdaptor),
-              onError(TrackingId)) {
+              onSuccess(CargoTrackingViewAdapter adaptor),
+              onError(TrackingId trackingId)) {
     
     var trackingId = new TrackingId(command.trackingId);
     var cargo = _cargoRepos.find(trackingId);
