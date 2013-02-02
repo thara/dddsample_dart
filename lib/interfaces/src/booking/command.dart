@@ -9,7 +9,7 @@ class CargoAdminController {
     
     List<LocationDto> dtoList = _bookingServiceFacade.listShippingLocations();
     var unLocodeStrings = 
-        _bookingServiceFacade.listShippingLocations().map((_) => _.unLocode);
+        _bookingServiceFacade.listShippingLocations().mappedBy((_) => _.unLocode);
   }
   
   void register(RegistrationCommand command, onSuccess(String trackingId)) {
@@ -39,10 +39,10 @@ class CargoAdminController {
   }
   
   void assignItinerary(RouteAssignmentCommand command, onSuccess(String trackingId)) {
-    var legDtos = command.legs.map((_) {
+    var legDtos = command.legs.mappedBy((_) {
       return new LegDto(_.voyageNumber,
           _.fromUnLocode, _.toUnLocode, _.fromDate, _.toDate);
-    });
+    }).toList();
     
     var selectedRoute = new RouteCandidateDto(legDtos);
     

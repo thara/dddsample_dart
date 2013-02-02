@@ -18,7 +18,7 @@ class Itinerary implements ValueObject<Itinerary> {
   Itinerary._(this._legs);
   
   factory Itinerary.withLegs(List<Leg> legs) {
-    if (legs.some((elem) => elem == null)) 
+    if (legs.any((elem) => elem == null)) 
       throw new ArgumentError("legs must not be contains null elements.");
     
     return new Itinerary._(new List.from(legs));
@@ -36,14 +36,14 @@ class Itinerary implements ValueObject<Itinerary> {
     
     types[HandlingEventType.LOAD] = () {
       // Check that the there is one leg with same load location and voyage
-      return _legs.some((leg) {
+      return _legs.any((leg) {
         return leg.loadLocation.sameIdentityAs(event.location) && leg.voyage.sameIdentityAs(event.voyage);
       });
     };
     
     types[HandlingEventType.UNLOAD] = () {
       // Check that the there is one leg with same unload location and voyage
-      return _legs.some((leg) {
+      return _legs.any((leg) {
         return leg.unloadLocation.sameIdentityAs(event.location) && leg.voyage.sameIdentityAs(event.voyage);
       });
     };

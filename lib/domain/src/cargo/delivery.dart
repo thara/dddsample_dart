@@ -68,18 +68,18 @@ class Delivery implements ValueObject<Delivery>{
   TransportStatus _calculateTransportStatus() {
     if (lastEvent == null) return TransportStatus.NOT_RECEIVED;
     
-    switch (lastEvent.type) {
-      case HandlingEventType.LOAD :
-        return TransportStatus.ONBOARD_CARRIER;
-      case HandlingEventType.UNLOAD :
-      case HandlingEventType.RECEIVE :
-      case HandlingEventType.CUSTOMS :
-        return TransportStatus.IN_PORT;
-      case HandlingEventType.CLAIM:
-        return TransportStatus.CLAIMED;
-      default :
-        return TransportStatus.UNKNOWN;
+    var eventTypes = new Map<HandlingEventType, TransportStatus>();
+    eventTypes[HandlingEventType.LOAD] = TransportStatus.ONBOARD_CARRIER;
+    eventTypes[HandlingEventType.UNLOAD] = TransportStatus.IN_PORT;
+    eventTypes[HandlingEventType.RECEIVE] = TransportStatus.IN_PORT;
+    eventTypes[HandlingEventType.CUSTOMS] = TransportStatus.IN_PORT;
+    eventTypes[HandlingEventType.CLAIM] = TransportStatus.CLAIMED;
+    
+    if (eventTypes.containsKey(lastEvent.type)) {
+      return eventTypes[lastEvent.type];
     }
+    
+    return TransportStatus.UNKNOWN;
   }
   
   Voyage _calculateCurrentVoyage() {
@@ -112,10 +112,10 @@ class Delivery implements ValueObject<Delivery>{
     };
     
     eventTypes[HandlingEventType.UNLOAD] = () {
-      for (var iter = itinerary.legs.iterator(); iter.hasNext; ) {
-        Leg leg = iter.next();
+      for (var iter = itinerary.legs.iterator; iter.moveNext(); ) {
+        Leg leg = iter.current;
         if (leg.unloadLocation.sameIdentityAs(lastEvent.location)) {
-          Leg nextLeg = iter.next();
+          Leg nextLeg = iter.current;
           return new HandlingActivity(HandlingEventType.LOAD, nextLeg.loadLocation, nextLeg.voyage);
         } else {
           return new HandlingActivity(HandlingEventType.CLAIM, leg.unloadLocation);

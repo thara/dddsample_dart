@@ -38,7 +38,7 @@ class CargoTrackingViewAdapter {
   List<HandlingEventViewAdapter> _events;
 
   CargoTrackingViewAdapter(this.cargo, List<HandlingEvent> handlingEvents) {
-    _events = handlingEvents.map(_createAdapter);
+    _events = handlingEvents.mappedBy(_createAdapter).toList();
   }
   
   String _getDisplayText(Location location) => location.name;

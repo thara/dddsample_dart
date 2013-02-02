@@ -34,23 +34,26 @@ main () {
       expect(adapter.destination, equals("Helsinki"));
       expect(adapter.statusText, equals("In port Helsinki"));
       
-      var iter = adapter.events.iterator();
+      var iter = adapter.events.iterator;
       
-      HandlingEventViewAdapter event = iter.next();
+      iter.moveNext();
+      HandlingEventViewAdapter event = iter.current;
       expect(event.type, equals("RECEIVE"));
       expect(event.location, equals("Hangzhou"));
       expect(event.time, equals("1970-01-01 00:00"));
       expect(event.voyageNumber, equals(""));
       expect(event.isExpected, isTrue);
       
-      event = iter.next();
+      iter.moveNext();
+      event = iter.current;
       expect(event.type, equals("LOAD"));
       expect(event.location, equals("Hangzhou"));
       expect(event.time, equals("1970-01-01 00:00"));
       expect(event.voyageNumber, equals("CM001"));
       expect(event.isExpected, isTrue);
       
-      event = iter.next();
+      iter.moveNext();
+      event = iter.current;
       expect(event.type, equals("UNLOAD"));
       expect(event.location, equals("Helsinki"));
       expect(event.time, equals("1970-01-01 00:00"));

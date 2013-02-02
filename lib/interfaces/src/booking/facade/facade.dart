@@ -47,7 +47,7 @@ class BookingServiceFacade {
   List<RouteCandidateDto> requestPossibleRoutesForCargo(String trackingIdStr) {
     var trackingId = new TrackingId(trackingIdStr);
     var itineraries = _bookingService.requestPossibleRoutesForCargo(trackingId);
-    return itineraries.map(new ItineraryCandidateDtoAssembler().toDto);
+    return itineraries.mappedBy(new ItineraryCandidateDtoAssembler().toDto).toList();
   }
   
   List<LocationDto> listShippingLocations() {
@@ -57,6 +57,6 @@ class BookingServiceFacade {
   
   List<CargoRoutingDto> listAllCargos() {
     var cargoList = _cargoRepos.findAll();
-    return cargoList.map(new CargoRoutingDtoAssembler().toDto);
+    return cargoList.mappedBy(new CargoRoutingDtoAssembler().toDto).toList();
   }
 }

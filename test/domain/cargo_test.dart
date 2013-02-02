@@ -362,7 +362,7 @@ main () {
   });
 }
 
-Cargo createCargo(Location origin, Location distination, [TrackingId trackingId, Date arrivalDeadline]) {
+Cargo createCargo(Location origin, Location distination, {TrackingId trackingId, Date arrivalDeadline}) {
   //TODO !?    
   if (!?trackingId) {
     trackingId = new TrackingId("XYZ");

@@ -35,14 +35,14 @@ class _GraphTraversalServiceImpl implements GraphTraversalService {
     var allVertices = _dao.listLocations();
     
     var filters = [originUnLocode, destinationUnLocode];
-    var vertices = allVertices.filter((elem) => !filters.contains(elem)); 
+    var vertices = allVertices.where((elem) => !filters.contains(elem)).toList(); 
     
     var candidateCount = getRandomNumberOfCandidates();
-    var candidates = new List<TransitPath>(candidateCount);
+    var candidates = new List<TransitPath>.fixedLength(candidateCount);
     
     for (var i = 0; i < candidateCount; i++) {
       vertices = getRandomChunkOfLocations(vertices);
-      var transitEdges = new List<TransitEdge>(vertices.length - 1);
+      var transitEdges = new List<TransitEdge>.fixedLength(vertices.length - 1);
       
       var firstLegTo = vertices[0];
       var fromDate = nextDate(date);

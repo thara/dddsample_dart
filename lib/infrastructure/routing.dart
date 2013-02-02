@@ -44,8 +44,8 @@ class ExternalRoutingService implements RoutingService {
     
     // The returned result is then translated back into our domain model.
     var itineraries = transitPaths
-                        .map(_toItinerary)
-                        .filter(routeSpec.isSatisfiedBy);
+                        .mappedBy(_toItinerary)
+                        .where(routeSpec.isSatisfiedBy);
     
     if (itineraries.length != transitPaths.length) {
       logger.warning(
@@ -56,7 +56,7 @@ class ExternalRoutingService implements RoutingService {
   }
   
   Itinerary _toItinerary(TransitPath transitPath) =>
-    new Itinerary.withLegs(transitPath.transitEdges.map(_toLeg));
+    new Itinerary.withLegs(transitPath.transitEdges.mappedBy(_toLeg));
   
   Leg _toLeg(TransitEdge edge) {
     return new Leg(

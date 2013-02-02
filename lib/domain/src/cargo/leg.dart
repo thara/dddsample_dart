@@ -17,7 +17,7 @@ class Leg {
   factory Leg(Voyage voyage, Location loadLocation, Location unloadLocation,
       Date loadTime, Date unloadTime) {
     var args = [voyage, loadLocation, unloadLocation, loadTime, unloadTime];
-    Expect.isFalse(args.some((elem) => elem == null));
+    Expect.isFalse(args.any((elem) => elem == null));
     
     return new Leg._(voyage, loadLocation, unloadLocation, loadTime, unloadTime);
   }

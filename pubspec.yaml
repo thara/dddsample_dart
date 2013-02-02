@@ -1,7 +1,7 @@
 name:  dddsample_dart
-description:  A sample application
+description:  This project is DDD Sample Application on Dart.
 
 dependencies:
-  unittest: any
-  logging: any
-  intl : any
+  unittest: ">=0.3.2"
+  logging: ">=0.3.2"
+  intl : ">=0.3.2"
