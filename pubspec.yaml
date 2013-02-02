@@ -1,7 +1,8 @@
-name:  dddsample_dart
-description:  This project is DDD Sample Application on Dart.
-
+name: dddsample_dart
+version: 0.0.1
+author: Tomochika Hara <tomochikahara@gmail.com>
+description: This project is DDD Sample Application on Dart.
 dependencies:
-  unittest: ">=0.3.2"
-  logging: ">=0.3.2"
-  intl : ">=0.3.2"
+  unittest: '>=0.3.2'
+  intl: '>=0.3.2'
+  logging: '>=0.3.2'
