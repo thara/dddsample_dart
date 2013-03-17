@@ -12,12 +12,12 @@ main () {
     test("is not accept null argument", () {
 
       expect(
-        () => new CarrierMovement(null, null, new Date.now(), new Date.now()),
-          throwsA(new isInstanceOf<ExpectException>()));
+        () => new CarrierMovement(null, null, new DateTime.now(), new DateTime.now()),
+          throwsA(new isInstanceOf<ArgumentError>()));
 
       expect(
-        () => new CarrierMovement(STOCKHOLM, HAMBURG, new Date.now(), new Date.now()),
-          isNot(throwsA(new isInstanceOf<ExpectException>())));
+        () => new CarrierMovement(STOCKHOLM, HAMBURG, new DateTime.now(), new DateTime.now()),
+          isNot(throwsA(new isInstanceOf<ArgumentError>())));
     });
 
     test('is same value as equals hash code', () {
@@ -25,10 +25,10 @@ main () {
       final Location hamburg = HAMBURG;
       final Location stockholm = STOCKHOLM;
 
-      CarrierMovement cm1 = new CarrierMovement(stockholm, hamburg, new Date.now(), new Date.now());
-      CarrierMovement cm2 = new CarrierMovement(stockholm, hamburg, new Date.now(), new Date.now());
-      CarrierMovement cm3 = new CarrierMovement(hamburg, stockholm, new Date.now(), new Date.now());
-      CarrierMovement cm4 = new CarrierMovement(hamburg, stockholm, new Date.now(), new Date.now());
+      CarrierMovement cm1 = new CarrierMovement(stockholm, hamburg, new DateTime.now(), new DateTime.now());
+      CarrierMovement cm2 = new CarrierMovement(stockholm, hamburg, new DateTime.now(), new DateTime.now());
+      CarrierMovement cm3 = new CarrierMovement(hamburg, stockholm, new DateTime.now(), new DateTime.now());
+      CarrierMovement cm4 = new CarrierMovement(hamburg, stockholm, new DateTime.now(), new DateTime.now());
 
       expect(cm1.sameValueAs(cm2), isTrue);
       expect(cm2.sameValueAs(cm3), isFalse);

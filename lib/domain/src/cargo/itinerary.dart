@@ -9,7 +9,7 @@ class Itinerary implements ValueObject<Itinerary> {
   
   //TODO Why is this private field?
 //  static final Date END_OF_DAYS = new Date.fromMillisecondsSinceEpoch(Date._MAX_MILLISECONDS_SINCE_EPOCH, isUtc:false);
-  static final Date END_OF_DAYS = new Date.fromMillisecondsSinceEpoch(8640000000000000, isUtc:false);
+  static final DateTime END_OF_DAYS = new DateTime.fromMillisecondsSinceEpoch(8640000000000000, isUtc:false);
   
   final List<Leg> _legs;
   
@@ -66,7 +66,7 @@ class Itinerary implements ValueObject<Itinerary> {
   Location get finalArrivalLocation => 
     _legs.isEmpty ? Location.UNKNOWN : _legs.last.unloadLocation;
   
-  Date get finalArrivalDate =>
+  DateTime get finalArrivalDate =>
     _legs.isEmpty ? END_OF_DAYS : _legs.last.unloadTime;
   
   List<Leg> get legs => new List.from(_legs);

@@ -26,7 +26,7 @@ class CargoRoutingDtoAssembler {
 class ItineraryCandidateDtoAssembler {
   
   RouteCandidateDto toDto(Itinerary itinerary) =>
-    new RouteCandidateDto(itinerary.legs.mappedBy(toLegDto).toList());
+    new RouteCandidateDto(itinerary.legs.map(toLegDto).toList());
   
   LegDto toLegDto(Leg leg) {
     var voyageNumber = leg.voyage.voyageNumber;
@@ -41,7 +41,7 @@ class ItineraryCandidateDtoAssembler {
                     VoyageRepository voyageRepos,
                     LocationRepository locationRepos) {
     
-    var legs = routeCandidateDto.legs.mappedBy((LegDto legDto) {
+    var legs = routeCandidateDto.legs.map((LegDto legDto) {
       var voyageNumber = new VoyageNumber(legDto.voyageNumber);
       var voyage = voyageRepos.find(voyageNumber);
       var from = locationRepos.find(new UnLocode(legDto.from));
@@ -59,5 +59,5 @@ class LocationDtoAssembler {
     new LocationDto(location.unLocode.idString, location.name);
   
   List<LocationDto> toDtoList(List<Location> allLocations) => 
-    allLocations.mappedBy(toDto).toList();
+    allLocations.map(toDto).toList();
 }

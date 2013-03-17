@@ -15,8 +15,8 @@ class Cargo implements Entity<Cargo>{
   Cargo._(this.trackingId, this.routeSpec, this.origin, this.delivery);
   
   factory Cargo(TrackingId trackingId, RouteSpecification routeSpec) {
-    Expect.isNotNull(trackingId, "Tracking ID is required.");
-    Expect.isNotNull(routeSpec, "Route Specification is required.");
+    if (trackingId == null) throw new ArgumentError("Tracking ID is required.");
+    if (trackingId == null) throw new ArgumentError("Route Specification is required.");
     
     Itinerary itinerary = null;
     var delivery = new Delivery.derivedFrom(routeSpec, itinerary, HandlingHistory.EMPTY);
@@ -37,7 +37,7 @@ class Cargo implements Entity<Cargo>{
   }
 
   void assignToRoute(Itinerary itinerary) {
-    Expect.isNotNull(itinerary, "Itinerary is required for assignment");
+    if (itinerary == null) throw new ArgumentError("Itinerary is required for assignment");
     
     this._itinerary = itinerary;
     // Handling consistency within the Cargo aggregate synchronously

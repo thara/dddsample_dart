@@ -10,7 +10,7 @@ class TrackingId implements ValueObject<TrackingId>{
   const TrackingId._(this._id);
   
   factory TrackingId(String id) {
-    Expect.isNotNull(id, "id must not be null");
+    if (id == null) throw new ArgumentError("id must not be null.");
     return new TrackingId._(id);
   }
   

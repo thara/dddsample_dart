@@ -11,8 +11,8 @@ class LegDto {
   final String voyageNumber;
   final String from;
   final String to;
-  final Date loadTime;
-  final Date unloadTime;
+  final DateTime loadTime;
+  final DateTime unloadTime;
   
   LegDto(this.voyageNumber, this.from, this.to, this.loadTime, this.unloadTime);
 }
@@ -22,7 +22,7 @@ class CargoRoutingDto {
   final String trackingId;
   final String origin;
   final String finalDestination;
-  final Date arrivalDeadline;
+  final DateTime arrivalDeadline;
   final bool misrouted;
   final List<LegDto> _legs = [];
   
@@ -30,7 +30,7 @@ class CargoRoutingDto {
                   this.finalDestination, this.arrivalDeadline, this.misrouted);
   
   void addLeg(String voyageNumber,
-                String from, String to, Date loadTime, Date unloadTime) {
+                String from, String to, DateTime loadTime, DateTime unloadTime) {
     _legs.add(new LegDto(voyageNumber, from, to, loadTime, unloadTime));
   }
   

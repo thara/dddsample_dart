@@ -3,22 +3,22 @@ part of cargo;
 class Delivery implements ValueObject<Delivery>{
 
   final HandlingEvent lastEvent;
-  final Date calculatedAt;
+  final DateTime calculatedAt;
   
   TransportStatus transportStatus;
   Location _lastKnownLocation;
   Voyage _currentVoyage;
   bool _misdirected;
-  Date eta;
+  DateTime eta;
   HandlingActivity nextExpectedActivity;
   bool isUnloadedAtDestination;
   RoutingStatus routingStatus;
   
-  static const Date ETA_UNKNOWN = null;
+  static const DateTime ETA_UNKNOWN = null;
   static const HandlingActivity NO_ACTIVITY = null;
   
   Delivery._(this.lastEvent, Itinerary itinerary, RouteSpecification routeSpec) 
-      : this.calculatedAt = new Date.now(){
+      : this.calculatedAt = new DateTime.now(){
     
     this._misdirected = _calculateMisdirectionStatus(itinerary);
     this.routingStatus = _calculateRoutingStatus(itinerary, routeSpec);
@@ -31,8 +31,8 @@ class Delivery implements ValueObject<Delivery>{
   }
   
   factory Delivery.derivedFrom(RouteSpecification routeSpec, Itinerary itinerary, HandlingHistory handlingHistory) {
-    Expect.isNotNull(routeSpec, "Route Specification is required.");
-    Expect.isNotNull(handlingHistory, "Delivary history is required.");
+    if (routeSpec == null) throw new ArgumentError("Route Specification is required.");
+    if (handlingHistory == null) throw new ArgumentError("Delivary history is required.");
     
     var lastEvent = handlingHistory.mostRecentlyCompletedEvent();
     return new Delivery._(lastEvent, itinerary, routeSpec);
@@ -51,7 +51,7 @@ class Delivery implements ValueObject<Delivery>{
     return false;
   }
   
-  Date estimatedTimeOfArrival() => eta != ETA_UNKNOWN ? eta : ETA_UNKNOWN;
+  DateTime estimatedTimeOfArrival() => eta != ETA_UNKNOWN ? eta : ETA_UNKNOWN;
   
   bool _calculateMisdirectionStatus(Itinerary itinerary) 
     => lastEvent == null ? false : !itinerary.isExpected(lastEvent);
@@ -90,7 +90,7 @@ class Delivery implements ValueObject<Delivery>{
     }
   }
     
-  Date _calculateEta(Itinerary itinerary) =>
+  DateTime _calculateEta(Itinerary itinerary) =>
     _onTrack() ? itinerary.finalArrivalDate : ETA_UNKNOWN;
   
   HandlingActivity _calculateNextExpectedActivity(RouteSpecification routeSpec, Itinerary itinerary) {
@@ -142,9 +142,9 @@ class Delivery implements ValueObject<Delivery>{
    * 
    */
   Delivery updateOnRouting(RouteSpecification routeSpec, Itinerary itinerary) {
-   Expect.isNotNull(routeSpec, "Route Specification is required.");
+    if (routeSpec == null) throw new ArgumentError("Route Specification is required.");
    
-   return new Delivery._(this.lastEvent, itinerary, routeSpec);
+    return new Delivery._(this.lastEvent, itinerary, routeSpec);
   }
 }
 

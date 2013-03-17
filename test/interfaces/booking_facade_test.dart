@@ -22,11 +22,11 @@ main (){
       var destination = MELBOURNE;
       var cargo = new Cargo(
                     new TrackingId("XYZ"),
-                    new RouteSpecification(origin, destination, new Date.now()));
+                    new RouteSpecification(origin, destination, new DateTime.now()));
       
       var itinerary = new Itinerary.withLegs([
-        new Leg(CM001, origin, SHANGHAI, new Date.now(), new Date.now()),
-        new Leg(CM001, ROTTERDAM, destination, new Date.now(), new Date.now())
+        new Leg(CM001, origin, SHANGHAI, new DateTime.now(), new DateTime.now()),
+        new Leg(CM001, ROTTERDAM, destination, new DateTime.now(), new DateTime.now())
       ]);
       
       cargo.assignToRoute(itinerary);
@@ -51,7 +51,7 @@ main (){
       
       var cargo = new Cargo(
                     new TrackingId("XYZ"),
-                    new RouteSpecification(STOCKHOLM, MELBOURNE, new Date.now()));
+                    new RouteSpecification(STOCKHOLM, MELBOURNE, new DateTime.now()));
       var dto = assembler.toDto(cargo);
       
       expect(dto.trackingId, equals("XYZ"));
@@ -70,8 +70,8 @@ main (){
       var destination = MELBOURNE;
       
       var itinerary = new Itinerary.withLegs([
-        new Leg(CM001, origin, SHANGHAI, new Date.now(), new Date.now()),
-        new Leg(CM001, ROTTERDAM, destination, new Date.now(), new Date.now())
+        new Leg(CM001, origin, SHANGHAI, new DateTime.now(), new DateTime.now()),
+        new Leg(CM001, ROTTERDAM, destination, new DateTime.now(), new DateTime.now())
       ]);
       
       var dto = assembler.toDto(itinerary);
@@ -93,8 +93,8 @@ main (){
       var assembler = new ItineraryCandidateDtoAssembler();
       
       var legs = <LegDto>[
-        new LegDto("CM001", "AAAAA", "BBBBB", new Date.now(), new Date.now()),
-        new LegDto("CM001", "BBBBB", "CCCCC", new Date.now(), new Date.now())
+        new LegDto("CM001", "AAAAA", "BBBBB", new DateTime.now(), new DateTime.now()),
+        new LegDto("CM001", "BBBBB", "CCCCC", new DateTime.now(), new DateTime.now())
       ];
       
       var locationRepos = new LocationReposMock();

@@ -11,13 +11,13 @@ import "../domain/sample_voyage.dart";
 
 main () {
 
-  Date date(int millisecondsSinceEpoch) =>
-      new Date.fromMillisecondsSinceEpoch(millisecondsSinceEpoch, isUtc:true);
+  DateTime date(int millisecondsSinceEpoch) =>
+      new DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch, isUtc:true);
 
   group("CargoTrackingViewadapter", () {
     
     test("create", () {
-      var cargo = new Cargo(new TrackingId("XYZ"), new RouteSpecification(HANGZOU, HELSINKI, new Date.now()));
+      var cargo = new Cargo(new TrackingId("XYZ"), new RouteSpecification(HANGZOU, HELSINKI, new DateTime.now()));
       
       var events = new List<HandlingEvent>();
       events.add(new HandlingEvent(cargo, date(1), date(2), HandlingEventType.RECEIVE, HANGZOU));

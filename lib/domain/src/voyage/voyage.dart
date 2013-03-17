@@ -10,8 +10,8 @@ class Voyage implements Entity<Voyage>{
   const Voyage._(this.voyageNumber, this.schedule);
   
   factory Voyage(VoyageNumber voyageNumber, Schedule schedule) {
-    Expect.isNotNull(voyageNumber, "Voyage number is required.");
-    Expect.isNotNull(schedule, "Schedule is required.");
+    if (voyageNumber == null) throw new ArgumentError("Voyage number is required.");
+    if (schedule == null) throw new ArgumentError("Schedule is required.");
     return new Voyage._(voyageNumber, schedule);
   }
   
@@ -38,12 +38,12 @@ class VoyageBuilder {
     : this.carrierMovements = [];
   
   factory VoyageBuilder(VoyageNumber voyageNumber, Location departureLocation) {
-    Expect.isNotNull(voyageNumber, "Voyage number is required.");
-    Expect.isNotNull(departureLocation, "Departure location is required.");
+    if (voyageNumber == null) throw new ArgumentError("Voyage number is required.");
+    if (departureLocation == null) throw new ArgumentError("Departure location is required.");
     return new VoyageBuilder._(voyageNumber, departureLocation);
   }
   
-  void addMovement(Location arrivalLocation, Date departureTime, Date arrivalTime) {
+  void addMovement(Location arrivalLocation, DateTime departureTime, DateTime arrivalTime) {
     carrierMovements.add(new CarrierMovement(this.departureLocation, arrivalLocation, departureTime, arrivalTime));
     // Next departure location is the same sa this arrival locaiton
     this.departureLocation = arrivalLocation;
@@ -63,7 +63,7 @@ class VoyageNumber implements ValueObject<VoyageNumber>{
   const VoyageNumber._(this._number);
   
   factory VoyageNumber(String number) {
-    Expect.isNotNull(number, "number is required.");
+    if (number == null) throw new ArgumentError("number is required.");
     return new VoyageNumber._(number);
   }
   

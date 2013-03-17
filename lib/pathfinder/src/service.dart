@@ -30,7 +30,7 @@ class _GraphTraversalServiceImpl implements GraphTraversalService {
                       String destinationUnLocode,
                       [Map<String, String> limitation]) {
     
-    var date = nextDate(new Date.now());
+    var date = nextDate(new DateTime.now());
     
     var allVertices = _dao.listLocations();
     
@@ -77,8 +77,8 @@ class _GraphTraversalServiceImpl implements GraphTraversalService {
     return candidates;
   }
   
-  Date nextDate(Date date) {
-    return new Date(date.millisecondsSinceEpoch +
+  DateTime nextDate(DateTime date) {
+    return new DateTime(date.millisecondsSinceEpoch +
                       ONE_DAY_MS + (_random.nextInt(1000) - 500) * ONE_MIN_MS);
   }
   

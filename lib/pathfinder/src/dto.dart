@@ -9,8 +9,8 @@ class TransitEdge {
   final String voyageNumber;
   final String fromUnLocode;
   final String toUnLocode;
-  final Date fromDate;
-  final Date toDate;
+  final DateTime fromDate;
+  final DateTime toDate;
   
   TransitEdge(this.voyageNumber,
               this.fromUnLocode, this.toUnLocode,

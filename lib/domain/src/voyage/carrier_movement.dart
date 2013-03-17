@@ -4,16 +4,18 @@ class CarrierMovement implements ValueObject<CarrierMovement> {
 
   final Location departureLocation;
   final Location arrivalLocation;
-  final Date departureTime;
-  final Date arrivalTime;
+  final DateTime departureTime;
+  final DateTime arrivalTime;
 
   CarrierMovement._(this.departureLocation, this.arrivalLocation, this.departureTime, this.arrivalTime);
   
-  factory CarrierMovement(Location departureLocation, Location arrivalLocation, Date departureTime, Date arrivalTime) {
-    Expect.isNotNull(departureLocation, "Departure location must not be null.");
-    Expect.isNotNull(arrivalLocation, "Arrival location must not be null.");
-    Expect.isNotNull(departureTime, "Departure time must not be null.");
-    Expect.isNotNull(arrivalTime, "Arrival time must not be null.");
+  factory CarrierMovement(Location departureLocation, Location arrivalLocation, DateTime departureTime, DateTime arrivalTime) {
+    
+    if (departureLocation == null) throw new ArgumentError("Departure location must not be null.");
+    if (arrivalLocation == null) throw new ArgumentError("Arrival location must not be null.");
+    if (departureTime == null) throw new ArgumentError("Departure time must not be null.");
+    if (arrivalTime == null) throw new ArgumentError("Arrival time must not be null.");
+    
     return new CarrierMovement._(departureLocation, arrivalLocation, departureTime, arrivalTime);
   }
 

@@ -9,7 +9,7 @@ class CargoAdminController {
     
     List<LocationDto> dtoList = _bookingServiceFacade.listShippingLocations();
     var unLocodeStrings = 
-        _bookingServiceFacade.listShippingLocations().mappedBy((_) => _.unLocode);
+        _bookingServiceFacade.listShippingLocations().map((_) => _.unLocode);
   }
   
   void register(RegistrationCommand command, onSuccess(String trackingId)) {
@@ -39,7 +39,7 @@ class CargoAdminController {
   }
   
   void assignItinerary(RouteAssignmentCommand command, onSuccess(String trackingId)) {
-    var legDtos = command.legs.mappedBy((_) {
+    var legDtos = command.legs.map((_) {
       return new LegDto(_.voyageNumber,
           _.fromUnLocode, _.toUnLocode, _.fromDate, _.toDate);
     }).toList();
@@ -72,8 +72,8 @@ class LegCommand {
   String voyageNumber;
   String fromUnLocode;
   String toUnLocode;
-  Date fromDate;
-  Date toDate;
+  DateTime fromDate;
+  DateTime toDate;
   LegCommand(this.voyageNumber,
       this.fromUnLocode, this.toUnLocode, this.fromDate, this.toDate);
 }

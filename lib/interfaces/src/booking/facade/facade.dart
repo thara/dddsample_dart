@@ -18,7 +18,7 @@ class BookingServiceFacade {
                         this._cargoRepos,
                         this._voyageRepos);
   
-  String bookNewCargo(String origin, String destination, Date arrivalDeadline) {
+  String bookNewCargo(String origin, String destination, DateTime arrivalDeadline) {
     var trackingId = _bookingService.bookNewCargo(
         new UnLocode(origin), new UnLocode(destination), arrivalDeadline
     );
@@ -47,7 +47,7 @@ class BookingServiceFacade {
   List<RouteCandidateDto> requestPossibleRoutesForCargo(String trackingIdStr) {
     var trackingId = new TrackingId(trackingIdStr);
     var itineraries = _bookingService.requestPossibleRoutesForCargo(trackingId);
-    return itineraries.mappedBy(new ItineraryCandidateDtoAssembler().toDto).toList();
+    return itineraries.map(new ItineraryCandidateDtoAssembler().toDto).toList();
   }
   
   List<LocationDto> listShippingLocations() {
@@ -57,6 +57,6 @@ class BookingServiceFacade {
   
   List<CargoRoutingDto> listAllCargos() {
     var cargoList = _cargoRepos.findAll();
-    return cargoList.mappedBy(new CargoRoutingDtoAssembler().toDto).toList();
+    return cargoList.map(new CargoRoutingDtoAssembler().toDto).toList();
   }
 }

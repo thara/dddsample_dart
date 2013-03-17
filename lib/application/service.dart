@@ -43,7 +43,7 @@ class BookingService {
    * Registers a new cargo in the tracking system, not yet routed.
    */
   TrackingId bookNewCargo(UnLocode originUnLocode,
-                          UnLocode destinationUnLocode, Date arrivalDeadline) {
+                          UnLocode destinationUnLocode, DateTime arrivalDeadline) {
     
     var trackingId = _cargoRepository.nextTrackingId();
     var origin = _locationRepository.find(originUnLocode);
@@ -114,7 +114,7 @@ class CargoInspectionService {
   
   /** Inspect cargo and send relevant notifications to interested parties */
   void inspectCargo(TrackingId trackingId) {
-    Expect.isNotNull(trackingId, "Tracking ID is required");
+    if (trackingId == null) throw new ArgumentError("Tracking ID is required.");
     
     var cargo = _cargoRepository.find(trackingId);
     if (cargo == null) {
@@ -156,13 +156,13 @@ class HandlingEventService {
    * Registers a handling event in the system, and notifies interested
    * parties that a cargo has been handled.
    */
-  void registerHandlingEvent(Date completionTime,
+  void registerHandlingEvent(DateTime completionTime,
                              TrackingId trackingId,
                              VoyageNumber voyageNumber,
                              UnLocode unLocode,
                              HandlingEventType type) {
     
-    var registrationTime = new Date.now();
+    var registrationTime = new DateTime.now();
     
     var event = _handlingEventFactory.createHandlingEvent(
       registrationTime, completionTime, trackingId, voyageNumber, unLocode, type

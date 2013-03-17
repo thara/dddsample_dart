@@ -14,7 +14,7 @@ final Voyage CM005 = createVoayge("CM003", CHICAGO, HAMBURG);
 
 Voyage createVoayge(String id, Location from, Location to) {
   return new Voyage(new VoyageNumber(id), new Schedule([
-    new CarrierMovement(from, to, new Date.now(), new Date.now())
+    new CarrierMovement(from, to, new DateTime.now(), new DateTime.now())
   ]));
 }
 

@@ -9,11 +9,11 @@ class HandlingActivity implements ValueObject<HandlingActivity> {
   HandlingActivity._(this.type, this.location, this.voyage);
   
   factory HandlingActivity(HandlingEventType type, Location location, [Voyage voyage = null]) {
-    Expect.isNotNull(type, "Handling event type is required.");
-    Expect.isNotNull(location, "Location is required.");
+    if (type == null) throw new ArgumentError("Handling event type is required.");
+    if (location == null) throw new ArgumentError("Location is required.");
     
     if (?voyage) {
-      Expect.isNotNull(voyage, "Voyage is required.");
+      if (voyage == null) throw new ArgumentError("Voyage is required.");
     }
     
     return new HandlingActivity._(type, location, voyage);  

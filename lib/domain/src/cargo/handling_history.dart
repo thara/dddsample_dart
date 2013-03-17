@@ -9,7 +9,7 @@ class HandlingHistory {
   HandlingHistory._(this.handlingEvents);
   
   factory HandlingHistory(Collection<HandlingEvent> handlingEvents) {
-    Expect.isNotNull(handlingEvents, "Handling Events is required.");
+    if (handlingEvents == null) throw new ArgumentError("Handling Events is required.");
     return new HandlingHistory._(new List.from(handlingEvents));
   }
   

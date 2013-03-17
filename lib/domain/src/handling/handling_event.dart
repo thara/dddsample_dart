@@ -3,8 +3,8 @@ part of handling;
 class HandlingEvent implements DomainEvent<HandlingEvent> {
   
   final Cargo cargo;
-  final Date completionTime;
-  final Date registrationTime;
+  final DateTime completionTime;
+  final DateTime registrationTime;
   final HandlingEventType type;
   final Location location;
   final Voyage voyage;
@@ -12,16 +12,17 @@ class HandlingEvent implements DomainEvent<HandlingEvent> {
   HandlingEvent._(this.cargo, this.completionTime, this.registrationTime,
       this.type, this.location, this.voyage);
   
-  factory HandlingEvent(Cargo cargo, Date completionTime, Date registrationTime,
+  factory HandlingEvent(Cargo cargo, DateTime completionTime, DateTime registrationTime,
       HandlingEventType type, Location location, [Voyage voyage = Voyage.NONE]) {
-    Expect.isNotNull(cargo, "Cargo is required");
-    Expect.isNotNull(completionTime, "Completion time is required");
-    Expect.isNotNull(registrationTime, "Registration time is required");
-    Expect.isNotNull(type, "Handling Event type is required");
-    Expect.isNotNull(location, "Location is required");
-
+    
+    if (cargo == null) throw new ArgumentError("Cargo is required.");
+    if (completionTime == null) throw new ArgumentError("Completion time is required.");
+    if (registrationTime == null) throw new ArgumentError("Registration time is required.");
+    if (type == null) throw new ArgumentError("Handling Event type is required.");
+    if (location == null) throw new ArgumentError("Location is required.");
+    
     if (?voyage) {
-      Expect.isNotNull(voyage, "Voyage is required");
+      if (voyage == null) throw new ArgumentError("Voyage is required");
       if (type.prohibitsVoyage) throw new ArgumentError("Voyage is not allowed with event type $type");
     } else {
       if (type.requiresVoyage) throw new ArgumentError("Voyage is required for event type $type");
@@ -64,7 +65,7 @@ Registered on: ${registrationTime}
     
     var sb = new StringBuffer(text);
     if (voyage != Voyage.NONE) {
-      sb.add("Voyage: ${voyage.voyageNumber}");
+      sb.write("Voyage: ${voyage.voyageNumber}");
     }
     return sb.toString();
   }
@@ -108,7 +109,7 @@ class HandlingEventFactory {
   HandlingEventFactory(this._cargoRepos, this._voyageRepos, this._locationRepos);
   
   HandlingEvent createHandlingEvent(
-    Date registrationTime, Date completionTime,
+    DateTime registrationTime, DateTime completionTime,
     TrackingId trackingId, VoyageNumber voyageNumber,
     UnLocode unLocode, HandlingEventType type) {
     

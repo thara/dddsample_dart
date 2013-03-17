@@ -13,7 +13,7 @@ main () {
     test("not accept null constructor arguments", () {
       expect(
           () => new TrackingId(null),
-          throwsA(new isInstanceOf<ExpectException>()));
+          throwsA(new isInstanceOf<ArgumentError>()));
     });
   });
 
@@ -21,7 +21,7 @@ main () {
     test("not accept null constructor arguments", () {
       expect(
         () => new Leg(null, null, null, null, null),
-        throwsA(new isInstanceOf<ExpectException>()));
+        throwsA(new isInstanceOf<ArgumentError>()));
     });
   });
   
@@ -29,40 +29,40 @@ main () {
     
     final Voyage hongKongTokyoNewYork = 
         (new VoyageBuilder(new VoyageNumber("V0001"), HONGKONG)
-          ..addMovement(TOKYO, new Date(2009, 2, 1), new Date(2009, 2, 5))
-          ..addMovement(NEWYORK, new Date(2009, 2, 6), new Date(2009, 2, 10))
-          ..addMovement(HONGKONG, new Date(2009, 2, 11), new Date(2009, 2, 14))).build();
+          ..addMovement(TOKYO, new DateTime(2009, 2, 1), new DateTime(2009, 2, 5))
+          ..addMovement(NEWYORK, new DateTime(2009, 2, 6), new DateTime(2009, 2, 10))
+          ..addMovement(HONGKONG, new DateTime(2009, 2, 11), new DateTime(2009, 2, 14))).build();
 
     final Voyage dellasNewYorkChicago = 
         (new VoyageBuilder(new VoyageNumber("V0002"), DALLAS)
-          ..addMovement(NEWYORK, new Date(2009, 2, 6), new Date(2009, 2, 7))
-          ..addMovement(CHICAGO, new Date(2009, 2, 12), new Date(2009, 2, 20))).build();
+          ..addMovement(NEWYORK, new DateTime(2009, 2, 6), new DateTime(2009, 2, 7))
+          ..addMovement(CHICAGO, new DateTime(2009, 2, 12), new DateTime(2009, 2, 20))).build();
     
     //TODO:
     // it shouldn't be possible to create Legs that have load/unload locations
     // and/or dates that don't match the voyage's carrier movements.
     final Itinerary itinerary = new Itinerary.withLegs([
-      new Leg(hongKongTokyoNewYork, HONGKONG, NEWYORK, new Date(2009, 2, 1), new Date(2009, 2, 10)),
-      new Leg(dellasNewYorkChicago, NEWYORK, CHICAGO, new Date(2009, 2, 12), new Date(2009, 2, 20))
+      new Leg(hongKongTokyoNewYork, HONGKONG, NEWYORK, new DateTime(2009, 2, 1), new DateTime(2009, 2, 10)),
+      new Leg(dellasNewYorkChicago, NEWYORK, CHICAGO, new DateTime(2009, 2, 12), new DateTime(2009, 2, 20))
     ]);
     
     test("is satisfied by success", () {
-      RouteSpecification routeSpec = new RouteSpecification(HONGKONG, CHICAGO, new Date(2009, 3, 1));
+      RouteSpecification routeSpec = new RouteSpecification(HONGKONG, CHICAGO, new DateTime(2009, 3, 1));
       expect(routeSpec.isSatisfiedBy(itinerary), isTrue);
     });
     
     test("is satisfied by wrong oring", () {
-      RouteSpecification routeSpec = new RouteSpecification(HANGZOU, CHICAGO, new Date(2009, 3, 1));
+      RouteSpecification routeSpec = new RouteSpecification(HANGZOU, CHICAGO, new DateTime(2009, 3, 1));
       expect(routeSpec.isSatisfiedBy(itinerary), isFalse);
     });
 
     test("is satisfied by wrong destination", () {
-      RouteSpecification routeSpec = new RouteSpecification(HONGKONG, DALLAS, new Date(2009, 3, 1));
+      RouteSpecification routeSpec = new RouteSpecification(HONGKONG, DALLAS, new DateTime(2009, 3, 1));
       expect(routeSpec.isSatisfiedBy(itinerary), isFalse);
     });
 
     test("is satisfied by missed deadline", () {
-      RouteSpecification routeSpec = new RouteSpecification(HONGKONG, CHICAGO, new Date(2009, 2, 15));
+      RouteSpecification routeSpec = new RouteSpecification(HONGKONG, CHICAGO, new DateTime(2009, 2, 15));
       expect(routeSpec.isSatisfiedBy(itinerary), isFalse);
     });
 
@@ -75,61 +75,61 @@ main () {
     setUp(() {
       voyage = 
           (new VoyageBuilder(new VoyageNumber("0123"), SHANGHAI)
-            ..addMovement(ROTTERDAM, new Date.now(), new Date.now())
-            ..addMovement(GOTHENBURG, new Date.now(), new Date.now())).build();
+            ..addMovement(ROTTERDAM, new DateTime.now(), new DateTime.now())
+            ..addMovement(GOTHENBURG, new DateTime.now(), new DateTime.now())).build();
       wrongVoyage = 
           (new VoyageBuilder(new VoyageNumber("666"), NEWYORK)
-            ..addMovement(STOCKHOLM, new Date.now(), new Date.now())
-            ..addMovement(HELSINKI, new Date.now(), new Date.now())).build();
+            ..addMovement(STOCKHOLM, new DateTime.now(), new DateTime.now())
+            ..addMovement(HELSINKI, new DateTime.now(), new DateTime.now())).build();
     });
     
     test("Cargo on Track", () {
       
       var trackingId = new TrackingId("CARG01");
-      RouteSpecification routeSpec = new RouteSpecification(SHANGHAI, GOTHENBURG, new Date.now());
+      RouteSpecification routeSpec = new RouteSpecification(SHANGHAI, GOTHENBURG, new DateTime.now());
       Cargo cargo = new Cargo(trackingId, routeSpec);
       
       Itinerary itinerary = new Itinerary.withLegs([
-        new Leg(voyage, SHANGHAI, ROTTERDAM, new Date.now(), new Date.now()),
-        new Leg(voyage, ROTTERDAM, GOTHENBURG, new Date.now(), new Date.now())
+        new Leg(voyage, SHANGHAI, ROTTERDAM, new DateTime.now(), new DateTime.now()),
+        new Leg(voyage, ROTTERDAM, GOTHENBURG, new DateTime.now(), new DateTime.now())
       ]);
       
       // Happy path
-      HandlingEvent event = new HandlingEvent(cargo, new Date.now(), new Date.now(), HandlingEventType.RECEIVE, SHANGHAI);
+      HandlingEvent event = new HandlingEvent(cargo, new DateTime.now(), new DateTime.now(), HandlingEventType.RECEIVE, SHANGHAI);
       expect(itinerary.isExpected(event), isTrue);
       
-      event = new HandlingEvent(cargo, new Date.now(), new Date.now(), HandlingEventType.LOAD, SHANGHAI, voyage);
+      event = new HandlingEvent(cargo, new DateTime.now(), new DateTime.now(), HandlingEventType.LOAD, SHANGHAI, voyage);
       expect(itinerary.isExpected(event), isTrue);
       
-      event = new HandlingEvent(cargo, new Date.now(), new Date.now(), HandlingEventType.UNLOAD, ROTTERDAM, voyage);
+      event = new HandlingEvent(cargo, new DateTime.now(), new DateTime.now(), HandlingEventType.UNLOAD, ROTTERDAM, voyage);
       expect(itinerary.isExpected(event), isTrue);
       
-      event = new HandlingEvent(cargo, new Date.now(), new Date.now(), HandlingEventType.LOAD, ROTTERDAM, voyage);
+      event = new HandlingEvent(cargo, new DateTime.now(), new DateTime.now(), HandlingEventType.LOAD, ROTTERDAM, voyage);
       expect(itinerary.isExpected(event), isTrue);
       
-      event = new HandlingEvent(cargo, new Date.now(), new Date.now(), HandlingEventType.UNLOAD, GOTHENBURG, voyage);
+      event = new HandlingEvent(cargo, new DateTime.now(), new DateTime.now(), HandlingEventType.UNLOAD, GOTHENBURG, voyage);
       expect(itinerary.isExpected(event), isTrue);
       
-      event = new HandlingEvent(cargo, new Date.now(), new Date.now(), HandlingEventType.CLAIM, GOTHENBURG);
+      event = new HandlingEvent(cargo, new DateTime.now(), new DateTime.now(), HandlingEventType.CLAIM, GOTHENBURG);
       expect(itinerary.isExpected(event), isTrue);
       
       // Customs event changes nothing
-      event = new HandlingEvent(cargo, new Date.now(), new Date.now(), HandlingEventType.CUSTOMS, GOTHENBURG);
+      event = new HandlingEvent(cargo, new DateTime.now(), new DateTime.now(), HandlingEventType.CUSTOMS, GOTHENBURG);
       expect(itinerary.isExpected(event), isTrue);
 
       // Received at the wrong location
-      event = new HandlingEvent(cargo, new Date.now(), new Date.now(), HandlingEventType.RECEIVE, HANGZOU);
+      event = new HandlingEvent(cargo, new DateTime.now(), new DateTime.now(), HandlingEventType.RECEIVE, HANGZOU);
       expect(itinerary.isExpected(event), isFalse);
       
       // Loaded to onto the wroing ship, correct location
-      event = new HandlingEvent(cargo, new Date.now(), new Date.now(), HandlingEventType.LOAD, ROTTERDAM, wrongVoyage);
+      event = new HandlingEvent(cargo, new DateTime.now(), new DateTime.now(), HandlingEventType.LOAD, ROTTERDAM, wrongVoyage);
       expect(itinerary.isExpected(event), isFalse);
       
       // Unloaded from the wrong ship in the wrong location
-      event = new HandlingEvent(cargo, new Date.now(), new Date.now(), HandlingEventType.UNLOAD, HELSINKI, wrongVoyage);
+      event = new HandlingEvent(cargo, new DateTime.now(), new DateTime.now(), HandlingEventType.UNLOAD, HELSINKI, wrongVoyage);
       expect(itinerary.isExpected(event), isFalse);
       
-      event = new HandlingEvent(cargo, new Date.now(), new Date.now(), HandlingEventType.CLAIM, ROTTERDAM);
+      event = new HandlingEvent(cargo, new DateTime.now(), new DateTime.now(), HandlingEventType.CLAIM, ROTTERDAM);
       expect(itinerary.isExpected(event), isFalse);
     });
   });
@@ -143,14 +143,14 @@ main () {
       events = <HandlingEvent>[];
       voyage = 
           (new VoyageBuilder(new VoyageNumber("0123"), STOCKHOLM)
-            ..addMovement(HAMBURG, new Date.now(), new Date.now())
-            ..addMovement(HONGKONG, new Date.now(), new Date.now())
-            ..addMovement(MELBOURNE, new Date.now(), new Date.now())).build();
+            ..addMovement(HAMBURG, new DateTime.now(), new DateTime.now())
+            ..addMovement(HONGKONG, new DateTime.now(), new DateTime.now())
+            ..addMovement(MELBOURNE, new DateTime.now(), new DateTime.now())).build();
     });
     
     test("is valid construction", () {
       TrackingId trackingId = new TrackingId("XYZ");
-      Date arrivalDeadline = new Date(2009, 3, 13);
+      DateTime arrivalDeadline = new DateTime(2009, 3, 13);
       RouteSpecification routeSpec = 
         new RouteSpecification(STOCKHOLM, MELBOURNE, arrivalDeadline);
       
@@ -164,11 +164,11 @@ main () {
     
     test("routing status", () {
       Cargo cargo = new Cargo(new TrackingId("XYZ"),
-                      new RouteSpecification(STOCKHOLM, MELBOURNE, new Date.now()));
+                      new RouteSpecification(STOCKHOLM, MELBOURNE, new DateTime.now()));
       
       Itinerary good = new Itinerary();
       Itinerary bad = new Itinerary();
-      RouteSpecification acceptOnlyGood = new RouteSpecification(cargo.origin, cargo.routeSpec.destination, new Date.now());
+      RouteSpecification acceptOnlyGood = new RouteSpecification(cargo.origin, cargo.routeSpec.destination, new DateTime.now());
       //TODO hmmmmmm
       acceptOnlyGood.routeSatisfiedBy = (itinerary) => identical(itinerary, good);
       
@@ -184,15 +184,15 @@ main () {
     
     test("last known location unknown when no events", () {
       Cargo cargo = new Cargo(new TrackingId("XYZ"), 
-                      new RouteSpecification(STOCKHOLM, MELBOURNE, new Date.now()));
+                      new RouteSpecification(STOCKHOLM, MELBOURNE, new DateTime.now()));
       expect(cargo.delivery.lastKnownLocation, equals(Location.UNKNOWN));
     });
     
     test("last known location received", () {
-      Cargo cargo = new Cargo(new TrackingId("XYZ"), new RouteSpecification(STOCKHOLM, MELBOURNE, new Date.now()));
+      Cargo cargo = new Cargo(new TrackingId("XYZ"), new RouteSpecification(STOCKHOLM, MELBOURNE, new DateTime.now()));
       
       HandlingEvent he = new HandlingEvent(
-          cargo, new Date(2007, 12, 1), new Date.now(),
+          cargo, new DateTime(2007, 12, 1), new DateTime.now(),
           HandlingEventType.RECEIVE, STOCKHOLM);
       
       var events = [he];
@@ -204,18 +204,18 @@ main () {
     test("last known locatipon clainmed", (){
       Cargo cargo = createCargo(STOCKHOLM, MELBOURNE);
       
-      events.add(createEvent(cargo, new Date(2007, 12, 1), HandlingEventType.LOAD, STOCKHOLM, voyage));
-      events.add(createEvent(cargo, new Date(2007, 12, 2), HandlingEventType.UNLOAD, HAMBURG, voyage));
+      events.add(createEvent(cargo, new DateTime(2007, 12, 1), HandlingEventType.LOAD, STOCKHOLM, voyage));
+      events.add(createEvent(cargo, new DateTime(2007, 12, 2), HandlingEventType.UNLOAD, HAMBURG, voyage));
       
-      events.add(createEvent(cargo, new Date(2007, 12, 3), HandlingEventType.LOAD, HAMBURG, voyage));
-      events.add(createEvent(cargo, new Date(2007, 12, 4), HandlingEventType.LOAD, HONGKONG, voyage));
+      events.add(createEvent(cargo, new DateTime(2007, 12, 3), HandlingEventType.LOAD, HAMBURG, voyage));
+      events.add(createEvent(cargo, new DateTime(2007, 12, 4), HandlingEventType.LOAD, HONGKONG, voyage));
 
-      events.add(createEvent(cargo, new Date(2007, 12, 5), HandlingEventType.LOAD, HONGKONG, voyage));
-      events.add(createEvent(cargo, new Date(2007, 12, 6), HandlingEventType.LOAD, MELBOURNE, voyage));
+      events.add(createEvent(cargo, new DateTime(2007, 12, 5), HandlingEventType.LOAD, HONGKONG, voyage));
+      events.add(createEvent(cargo, new DateTime(2007, 12, 6), HandlingEventType.LOAD, MELBOURNE, voyage));
       
       cargo.deriveDeliveryProgress(new HandlingHistory(events));
       
-      events.add(createEvent(cargo, new Date(2007, 12, 9), HandlingEventType.CLAIM, MELBOURNE));
+      events.add(createEvent(cargo, new DateTime(2007, 12, 9), HandlingEventType.CLAIM, MELBOURNE));
       
       cargo.deriveDeliveryProgress(new HandlingHistory(events));
       
@@ -225,10 +225,10 @@ main () {
     test("last known locatipon unloaded", (){
       Cargo cargo = createCargo(STOCKHOLM, MELBOURNE);
       
-      events.add(createEvent(cargo, new Date(2007, 12, 1), HandlingEventType.LOAD, STOCKHOLM, voyage));
-      events.add(createEvent(cargo, new Date(2007, 12, 2), HandlingEventType.UNLOAD, HAMBURG, voyage));
-      events.add(createEvent(cargo, new Date(2007, 12, 3), HandlingEventType.LOAD, HAMBURG, voyage));
-      events.add(createEvent(cargo, new Date(2007, 12, 4), HandlingEventType.UNLOAD, HONGKONG, voyage));
+      events.add(createEvent(cargo, new DateTime(2007, 12, 1), HandlingEventType.LOAD, STOCKHOLM, voyage));
+      events.add(createEvent(cargo, new DateTime(2007, 12, 2), HandlingEventType.UNLOAD, HAMBURG, voyage));
+      events.add(createEvent(cargo, new DateTime(2007, 12, 3), HandlingEventType.LOAD, HAMBURG, voyage));
+      events.add(createEvent(cargo, new DateTime(2007, 12, 4), HandlingEventType.UNLOAD, HONGKONG, voyage));
       
       cargo.deriveDeliveryProgress(new HandlingHistory(events));
       
@@ -238,9 +238,9 @@ main () {
     test("last known location loaded", () {
       Cargo cargo = createCargo(STOCKHOLM, MELBOURNE);
       
-      events.add(createEvent(cargo, new Date(2007, 12, 1), HandlingEventType.LOAD, STOCKHOLM, voyage));
-      events.add(createEvent(cargo, new Date(2007, 12, 2), HandlingEventType.UNLOAD, HAMBURG, voyage));
-      events.add(createEvent(cargo, new Date(2007, 12, 3), HandlingEventType.LOAD, HAMBURG, voyage));
+      events.add(createEvent(cargo, new DateTime(2007, 12, 1), HandlingEventType.LOAD, STOCKHOLM, voyage));
+      events.add(createEvent(cargo, new DateTime(2007, 12, 2), HandlingEventType.UNLOAD, HAMBURG, voyage));
+      events.add(createEvent(cargo, new DateTime(2007, 12, 3), HandlingEventType.LOAD, HAMBURG, voyage));
       
       cargo.deriveDeliveryProgress(new HandlingHistory(events));
       
@@ -248,8 +248,8 @@ main () {
     });
 
     test("equality", () {
-      RouteSpecification spec1 = new RouteSpecification(STOCKHOLM, HONGKONG, new Date.now());
-      RouteSpecification spec2 = new RouteSpecification(STOCKHOLM, MELBOURNE, new Date.now());
+      RouteSpecification spec1 = new RouteSpecification(STOCKHOLM, HONGKONG, new DateTime.now());
+      RouteSpecification spec2 = new RouteSpecification(STOCKHOLM, MELBOURNE, new DateTime.now());
       
       Cargo c1 = new Cargo(new TrackingId("ABC"), spec1);
       Cargo c2 = new Cargo(new TrackingId("CBA"), spec1);
@@ -269,36 +269,36 @@ main () {
       
       // Adding event unrelated to unloading at final destination
       events.add(
-          new HandlingEvent(cargo, date(10), new Date.now(), HandlingEventType.RECEIVE, HANGZOU));
+          new HandlingEvent(cargo, date(10), new DateTime.now(), HandlingEventType.RECEIVE, HANGZOU));
       cargo.deriveDeliveryProgress(new HandlingHistory(events));
       expect(cargo.delivery.isUnloadedAtDestination, isFalse);
       
       voyage = 
           (new VoyageBuilder(new VoyageNumber("0123"), HANGZOU)
-            ..addMovement(NEWYORK, new Date.now(), new Date.now())).build();
+            ..addMovement(NEWYORK, new DateTime.now(), new DateTime.now())).build();
       
       // Adding an unload event, but not at the final destination
       events.add(
-          new HandlingEvent(cargo, date(20), new Date.now(), HandlingEventType.UNLOAD, TOKYO, voyage));
+          new HandlingEvent(cargo, date(20), new DateTime.now(), HandlingEventType.UNLOAD, TOKYO, voyage));
       cargo.deriveDeliveryProgress(new HandlingHistory(events));
       expect(cargo.delivery.isUnloadedAtDestination, isFalse);
       
       // Adding an event in the final destincation, but not unload
       events.add(
-          new HandlingEvent(cargo, date(30), new Date.now(), HandlingEventType.CUSTOMS, NEWYORK));
+          new HandlingEvent(cargo, date(30), new DateTime.now(), HandlingEventType.CUSTOMS, NEWYORK));
       cargo.deriveDeliveryProgress(new HandlingHistory(events));
       expect(cargo.delivery.isUnloadedAtDestination, isFalse);
       
       // Finally, cargo is unloaded at final destination
       events.add(
-          new HandlingEvent(cargo, date(40), new Date.now(), HandlingEventType.UNLOAD, NEWYORK, voyage));
+          new HandlingEvent(cargo, date(40), new DateTime.now(), HandlingEventType.UNLOAD, NEWYORK, voyage));
       cargo.deriveDeliveryProgress(new HandlingHistory(events));
       expect(cargo.delivery.isUnloadedAtDestination, isTrue);
     });
     
     test("is misdirected", () {
       // A cargo with no itinerary is not misdirected
-      Cargo cargo = new Cargo(new TrackingId("TRKID"), new RouteSpecification(SHANGHAI, GOTHENBURG, new Date.now()));
+      Cargo cargo = new Cargo(new TrackingId("TRKID"), new RouteSpecification(SHANGHAI, GOTHENBURG, new DateTime.now()));
       expect(cargo.delivery.isMisdirected, isFalse);
       
       cargo = setupCargoWithItinerary(voyage, SHANGHAI, ROTTERDAM, GOTHENBURG);
@@ -326,7 +326,7 @@ main () {
       cargo = setupCargoWithItinerary(voyage, SHANGHAI, ROTTERDAM, GOTHENBURG);
       handlingEvents = <HandlingEvent>[];
       
-      handlingEvents.add(new HandlingEvent(cargo, new Date.now(), new Date.now(), HandlingEventType.RECEIVE, HANGZOU));
+      handlingEvents.add(new HandlingEvent(cargo, new DateTime.now(), new DateTime.now(), HandlingEventType.RECEIVE, HANGZOU));
       events.addAll(handlingEvents);
       cargo.deriveDeliveryProgress(new HandlingHistory(events));
       
@@ -352,7 +352,7 @@ main () {
       handlingEvents.add(new HandlingEvent(cargo, date(10), date(20), HandlingEventType.RECEIVE, SHANGHAI));
       handlingEvents.add(new HandlingEvent(cargo, date(30), date(40), HandlingEventType.LOAD, SHANGHAI, voyage));
       handlingEvents.add(new HandlingEvent(cargo, date(50), date(60), HandlingEventType.UNLOAD, ROTTERDAM, voyage));
-      handlingEvents.add(new HandlingEvent(cargo, new Date.now(), new Date.now(), HandlingEventType.CLAIM, ROTTERDAM));
+      handlingEvents.add(new HandlingEvent(cargo, new DateTime.now(), new DateTime.now(), HandlingEventType.CLAIM, ROTTERDAM));
       
       events.addAll(handlingEvents);
       cargo.deriveDeliveryProgress(new HandlingHistory(events));
@@ -362,34 +362,34 @@ main () {
   });
 }
 
-Cargo createCargo(Location origin, Location distination, {TrackingId trackingId, Date arrivalDeadline}) {
+Cargo createCargo(Location origin, Location distination, {TrackingId trackingId, DateTime arrivalDeadline}) {
   //TODO !?    
   if (!?trackingId) {
     trackingId = new TrackingId("XYZ");
   }
   
   if (!?arrivalDeadline) {
-    arrivalDeadline = new Date.now();
+    arrivalDeadline = new DateTime.now();
   }
   
   return new Cargo(trackingId, new RouteSpecification(origin, distination, arrivalDeadline));
 }
 
-HandlingEvent createEvent(Cargo cargo, Date completionTime, HandlingEventType eventType, Location location, [Voyage voyage]) {
+HandlingEvent createEvent(Cargo cargo, DateTime completionTime, HandlingEventType eventType, Location location, [Voyage voyage]) {
   
   if (?voyage) {
-    return new HandlingEvent(cargo, completionTime, new Date.now(), eventType, location, voyage);
+    return new HandlingEvent(cargo, completionTime, new DateTime.now(), eventType, location, voyage);
   }
   
-  return new HandlingEvent(cargo, completionTime, new Date.now(), eventType, location);
+  return new HandlingEvent(cargo, completionTime, new DateTime.now(), eventType, location);
 }
 
 Cargo setupCargoWithItinerary(Voyage voyage, Location origin, Location midpoint, Location destination) {
-  Cargo cargo = new Cargo(new TrackingId("CARG01"), new RouteSpecification(origin, destination, new Date.now()));
+  Cargo cargo = new Cargo(new TrackingId("CARG01"), new RouteSpecification(origin, destination, new DateTime.now()));
   
   Itinerary itinerary = new Itinerary.withLegs([
-    new Leg(voyage, origin, midpoint, new Date.now(), new Date.now()),
-    new Leg(voyage, midpoint, destination, new Date.now(), new Date.now())
+    new Leg(voyage, origin, midpoint, new DateTime.now(), new DateTime.now()),
+    new Leg(voyage, midpoint, destination, new DateTime.now(), new DateTime.now())
   ]);
   
   cargo.assignToRoute(itinerary);
@@ -397,4 +397,4 @@ Cargo setupCargoWithItinerary(Voyage voyage, Location origin, Location midpoint,
   return cargo;
 }
 
-Date date(int num) => new Date.fromMillisecondsSinceEpoch(num, isUtc:false);
+DateTime date(int num) => new DateTime.fromMillisecondsSinceEpoch(num, isUtc:false);

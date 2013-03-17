@@ -45,7 +45,7 @@ main() {
       locationRepos.when(callsTo("find", fromUnlocode)).thenReturn(CHICAGO);
       locationRepos.when(callsTo("find", toUnlocode)).thenReturn(STOCKHOLM);
       
-      var trackingId = bookingService.bookNewCargo(fromUnlocode, toUnlocode, new Date.now());
+      var trackingId = bookingService.bookNewCargo(fromUnlocode, toUnlocode, new DateTime.now());
       expect(trackingId, equals(expectedTrackingId));
     });
   });
@@ -61,7 +61,7 @@ main() {
     AppEventsMock appEvents;
     
     final Cargo cargo = 
-        new Cargo(new TrackingId("ABC"), new RouteSpecification(HAMBURG, TOKYO, new Date.now()));
+        new Cargo(new TrackingId("ABC"), new RouteSpecification(HAMBURG, TOKYO, new DateTime.now()));
     
     setUp(() {
       cargoRepos = new CargoReposMock();
@@ -94,7 +94,7 @@ main() {
       handlingEventRepos.when(callsTo("store")).thenReturn(null);
       appEvents.when(callsTo("cargoWasHandled")).thenReturn(null);
       
-      service.registerHandlingEvent(new Date.now(),
+      service.registerHandlingEvent(new DateTime.now(),
                                     cargo.trackingId,
                                     CM001.voyageNumber,
                                     STOCKHOLM.unLocode,
