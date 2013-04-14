@@ -30,7 +30,7 @@ class CarrierMovement implements ValueObject<CarrierMovement> {
     const int constant = 37;
     return
       [this.departureLocation, this.arrivalLocation, this.departureTime, this.arrivalTime]
-        .reduce(17, (total, elem) => total * constant + elem.hashCode);
+        .fold(17, (total, elem) => total * constant + elem.hashCode);
   }
 
   bool operator==(other) {

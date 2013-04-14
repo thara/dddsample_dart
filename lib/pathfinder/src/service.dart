@@ -38,11 +38,11 @@ class _GraphTraversalServiceImpl implements GraphTraversalService {
     var vertices = allVertices.where((elem) => !filters.contains(elem)).toList(); 
     
     var candidateCount = getRandomNumberOfCandidates();
-    var candidates = new List<TransitPath>.fixedLength(candidateCount);
+    var candidates = new List<TransitPath>(candidateCount);
     
     for (var i = 0; i < candidateCount; i++) {
       vertices = getRandomChunkOfLocations(vertices);
-      var transitEdges = new List<TransitEdge>.fixedLength(vertices.length - 1);
+      var transitEdges = new List<TransitEdge>(vertices.length - 1);
       
       var firstLegTo = vertices[0];
       var fromDate = nextDate(date);
@@ -90,7 +90,7 @@ class _GraphTraversalServiceImpl implements GraphTraversalService {
     allLocations = shuffle(allLocations);
     var total = allLocations.length;
     var chunk = total > 4 ? 1 + new math.Random().nextInt(5) : total;
-    return allLocations.getRange(0, chunk);
+    return allLocations.sublist(0, chunk);
   }
   
   List shuffle(List items) {

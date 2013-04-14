@@ -13,12 +13,12 @@ class UnLocode implements ValueObject<UnLocode> {
   const UnLocode._(this.unlocode);
   
   factory UnLocode(String countryAndLocation) {
-    Expect.isNotNull(countryAndLocation, "Country and location may not be null.");
+    if (countryAndLocation == null) throw new ArgumentError("Country and location may not be null.");
     
     //TODO Is it the standard way?
-    Expect.isTrue(
-        _VALID_PATTERN.stringMatch(countryAndLocation) == countryAndLocation,
-        "${countryAndLocation} is not a valid UN/LOCODE (does not match pattern).");
+    if (_VALID_PATTERN.stringMatch(countryAndLocation) == countryAndLocation) {
+      throw new ArgumentError("${countryAndLocation} is not a valid UN/LOCODE (does not match pattern).");
+    }
     
     return new UnLocode._(countryAndLocation.toUpperCase());
   }

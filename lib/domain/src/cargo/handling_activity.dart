@@ -29,7 +29,7 @@ class HandlingActivity implements ValueObject<HandlingActivity> {
     const int constant = 37;
     return
       [this.type, this.location, this.voyage]
-        .reduce(17, (total, elem) => elem ? total : total * constant + elem.hashCode);
+        .fold(17, (total, elem) => elem ? total : total * constant + elem.hashCode);
   }
 
   bool operator==(other) {

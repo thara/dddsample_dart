@@ -43,7 +43,7 @@ class HandlingEvent implements DomainEvent<HandlingEvent> {
     const int constant = 37;
     return
       [cargo, completionTime, registrationTime, type, location, voyage]
-        .reduce(17, (total, elem) => elem == null ? total : total * constant + elem.hashCode);
+        .fold(17, (total, elem) => elem == null ? total : total * constant + elem.hashCode);
   }
   
   bool operator==(other) {

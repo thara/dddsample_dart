@@ -11,8 +11,8 @@ class Location implements Entity<Location> {
   const Location._(this.unLocode, this.name);
   
   factory Location(UnLocode unLocode, String name) {
-    Expect.isNotNull(unLocode, "UnLocode must not be null.");
-    Expect.isNotNull(name, "name must not be null.");
+    if (unLocode == null) throw new ArgumentError("UnLocode must not be null.");
+    if (name == null) throw new ArgumentError("name must not be null.");
     return new Location._(unLocode, name);
   }
 
