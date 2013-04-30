@@ -12,11 +12,11 @@ main() {
     });
 
     test("can't have invalid UN/LOCODE", () {
-      expect(() => new UnLocode("AAAA"), throwsA(new isInstanceOf<ExpectException>()));
-      expect(() => new UnLocode("AAAAAA"), throwsA(new isInstanceOf<ExpectException>()));
-      expect(() => new UnLocode("22AAA"), throwsA(new isInstanceOf<ExpectException>()));
-      expect(() => new UnLocode("AA111"), throwsA(new isInstanceOf<ExpectException>()));
-      expect(() => new UnLocode(null), throwsA(new isInstanceOf<ExpectException>()));
+      expect(() => new UnLocode("AAAA"), throwsA(new isInstanceOf<ArgumentError>()));
+      expect(() => new UnLocode("AAAAAA"), throwsA(new isInstanceOf<ArgumentError>()));
+      expect(() => new UnLocode("22AAA"), throwsA(new isInstanceOf<ArgumentError>()));
+      expect(() => new UnLocode("AA111"), throwsA(new isInstanceOf<ArgumentError>()));
+      expect(() => new UnLocode(null), throwsA(new isInstanceOf<ArgumentError>()));
     });
 
     test('has UN/LOCODE of upper case',  () {
@@ -58,7 +58,7 @@ main() {
     });
 
     test("can't have null value", () {
-      expect(() => new Location(null, null), throwsA(new isInstanceOf<ExpectException>()));
+      expect(() => new Location(null, null), throwsA(new isInstanceOf<ArgumentError>()));
     });
   });
 }

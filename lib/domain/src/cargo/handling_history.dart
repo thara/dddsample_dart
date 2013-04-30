@@ -8,7 +8,7 @@ class HandlingHistory {
   
   HandlingHistory._(this.handlingEvents);
   
-  factory HandlingHistory(Collection<HandlingEvent> handlingEvents) {
+  factory HandlingHistory(List<HandlingEvent> handlingEvents) {
     if (handlingEvents == null) throw new ArgumentError("Handling Events is required.");
     return new HandlingHistory._(new List.from(handlingEvents));
   }

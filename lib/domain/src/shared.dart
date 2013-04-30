@@ -44,19 +44,19 @@ abstract class Specification<T> {
   bool isSatisfiedBy(T target);
 
   Specification<T> and(Specification<T> spec) {
-    return new AndSpecification(this, spec);
+    return new AndSpecification<T>(this, spec);
   }
 
   Specification<T> or(Specification<T> spec) {
-    return new OrSpecification(this, spec);
+    return new OrSpecification<T>(this, spec);
   }
 
   Specification<T> not(Specification<T> spec) {
-    return new NotSpecification(spec);
+    return new NotSpecification<T>(spec);
   }
 }
 
-class AndSpecification<T> extends Specification {
+class AndSpecification<T> extends Specification<T> {
 
   final Specification<T> _spec1;
   final Specification<T> _spec2;
@@ -71,7 +71,7 @@ class AndSpecification<T> extends Specification {
   }
 }
 
-class OrSpecification<T> extends Specification {
+class OrSpecification<T> extends Specification<T> {
 
   final Specification<T> _spec1;
   final Specification<T> _spec2;
@@ -86,7 +86,7 @@ class OrSpecification<T> extends Specification {
   }
 }
 
-class NotSpecification<T> extends Specification {
+class NotSpecification<T> extends Specification<T> {
 
   final Specification<T> _spec1;
 

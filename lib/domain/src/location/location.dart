@@ -16,7 +16,6 @@ class Location implements Entity<Location> {
     return new Location._(unLocode, name);
   }
 
-  /** [override] */
   bool sameIdentityAs(Location other) {
     return this.unLocode.sameValueAs(other.unLocode);
   }

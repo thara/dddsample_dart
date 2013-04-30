@@ -16,7 +16,7 @@ class UnLocode implements ValueObject<UnLocode> {
     if (countryAndLocation == null) throw new ArgumentError("Country and location may not be null.");
     
     //TODO Is it the standard way?
-    if (_VALID_PATTERN.stringMatch(countryAndLocation) == countryAndLocation) {
+    if (_VALID_PATTERN.stringMatch(countryAndLocation) != countryAndLocation) {
       throw new ArgumentError("${countryAndLocation} is not a valid UN/LOCODE (does not match pattern).");
     }
     
