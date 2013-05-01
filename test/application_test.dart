@@ -1,18 +1,15 @@
 import 'package:unittest/unittest.dart';
 import 'package:unittest/mock.dart';
 
-import 'package:dddsample_dart/domain/cargo.dart';
-import 'package:dddsample_dart/domain/location.dart';
-import 'package:dddsample_dart/domain/handling.dart';
-import 'package:dddsample_dart/domain/voyage.dart';
-import 'package:dddsample_dart/domain/service.dart';
-
-import 'package:dddsample_dart/application/service.dart';
+import 'package:dddsample/dddsample/domain.dart';
+import 'package:dddsample/dddsample/application.dart';
 
 import './domain/sample_location.dart';
 import './domain/sample_voyage.dart';
 
-main() {
+main() => run();
+
+run() {
   
   group('Booking Service', () {
     

@@ -1,11 +1,13 @@
 import 'package:unittest/unittest.dart';
 
-import "package:dddsample_dart/domain/voyage.dart";
-import "package:dddsample_dart/domain/location.dart";
+import "package:dddsample/dddsample/domain/voyage.dart";
+import "package:dddsample/dddsample/domain/location.dart";
 
 import "sample_location.dart";
 
-main () {
+main() => run();
+
+run() {
 
   group("CarrierMovement", () {
 

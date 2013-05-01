@@ -1,15 +1,17 @@
 import 'package:unittest/unittest.dart';
 import 'package:intl/intl.dart';
 
-import 'package:dddsample_dart/interfaces/tracking.dart';
+import 'package:dddsample/dddsample/interfaces/tracking.dart';
 
-import 'package:dddsample_dart/domain/cargo.dart';
-import "package:dddsample_dart/domain/handling.dart";
+import 'package:dddsample/dddsample/domain/cargo.dart';
+import "package:dddsample/dddsample/domain/handling.dart";
 
 import "../domain/sample_location.dart";
 import "../domain/sample_voyage.dart";
 
-main () {
+main() => run();
+
+run() {
 
   DateTime date(int millisecondsSinceEpoch) =>
       new DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch, isUtc:true);

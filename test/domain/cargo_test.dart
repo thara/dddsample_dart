@@ -1,13 +1,15 @@
 import 'package:unittest/unittest.dart';
 
-import 'package:dddsample_dart/domain/cargo.dart';
-import "package:dddsample_dart/domain/handling.dart";
-import "package:dddsample_dart/domain/voyage.dart";
-import "package:dddsample_dart/domain/location.dart";
+import 'package:dddsample/dddsample/domain/cargo.dart';
+import "package:dddsample/dddsample/domain/handling.dart";
+import "package:dddsample/dddsample/domain/voyage.dart";
+import "package:dddsample/dddsample/domain/location.dart";
 
 import "sample_location.dart";
 
-main () {
+main() => run();
+
+run() {
   
   group("TrackingId", () {
     test("not accept null constructor arguments", () {

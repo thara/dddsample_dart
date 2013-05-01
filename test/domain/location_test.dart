@@ -1,8 +1,10 @@
 import 'package:unittest/unittest.dart';
 
-import "package:dddsample_dart/domain/location.dart";
+import "package:dddsample/dddsample/domain/location.dart";
 
-main() {
+main() => run();
+
+run() {
 
   group('UnLocode', () {
 

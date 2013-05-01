@@ -1,17 +1,19 @@
 import 'package:unittest/unittest.dart';
 import 'package:unittest/mock.dart';
 
-import 'package:dddsample_dart/interfaces/booking.dart';
+import 'package:dddsample/dddsample/interfaces/booking.dart';
 
-import 'package:dddsample_dart/domain/cargo.dart';
-import "package:dddsample_dart/domain/handling.dart";
-import "package:dddsample_dart/domain/voyage.dart";
-import "package:dddsample_dart/domain/location.dart";
+import 'package:dddsample/dddsample/domain/cargo.dart';
+import "package:dddsample/dddsample/domain/handling.dart";
+import "package:dddsample/dddsample/domain/voyage.dart";
+import "package:dddsample/dddsample/domain/location.dart";
 
 import "../domain/sample_location.dart";
 import "../domain/sample_voyage.dart";
 
-main (){
+main() => run();
+
+run(){
   
   group("CargoRoutingDtoAssembler", () {
     
