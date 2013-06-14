@@ -1,7 +1,7 @@
 import 'package:unittest/unittest.dart';
 
-import 'package:dddsample/dddsample/domain.dart';
-import 'package:dddsample/dddsample/application.dart';
+import 'package:dddsample/domain.dart';
+import 'package:dddsample/application/service.dart';
 
 import 'interfaces/booking_facade_test.dart' as booking_facade_test;
 import 'interfaces/tracking_test.dart' as tracking_test;

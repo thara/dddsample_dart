@@ -1,9 +1,9 @@
 import 'package:unittest/unittest.dart';
 
-import "package:dddsample/dddsample/domain/voyage.dart";
-import "package:dddsample/dddsample/domain/location.dart";
+import "package:dddsample/voyage.dart";
+import "package:dddsample/location.dart";
 
-import "sample_location.dart";
+import "../sample/sample_location.dart";
 
 main() => run();
 

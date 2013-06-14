@@ -1,15 +1,15 @@
 import 'package:unittest/unittest.dart';
 import 'package:unittest/mock.dart';
 
-import 'package:dddsample/dddsample/interfaces/booking.dart';
+import 'package:dddsample/interfaces/booking.dart';
 
-import 'package:dddsample/dddsample/domain/cargo.dart';
-import "package:dddsample/dddsample/domain/handling.dart";
-import "package:dddsample/dddsample/domain/voyage.dart";
-import "package:dddsample/dddsample/domain/location.dart";
+import 'package:dddsample/cargo.dart';
+import "package:dddsample/handling.dart";
+import "package:dddsample/voyage.dart";
+import "package:dddsample/location.dart";
 
-import "../domain/sample_location.dart";
-import "../domain/sample_voyage.dart";
+import "../sample/sample_location.dart";
+import "../sample/sample_voyage.dart";
 
 main() => run();
 

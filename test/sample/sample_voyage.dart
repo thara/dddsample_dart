@@ -1,8 +1,8 @@
 library sample_dart;
 
-import 'package:dddsample/dddsample/domain/cargo.dart';
-import "package:dddsample/dddsample/domain/voyage.dart";
-import "package:dddsample/dddsample/domain/location.dart";
+import 'package:dddsample/cargo.dart';
+import "package:dddsample/voyage.dart";
+import "package:dddsample/location.dart";
 
 import "sample_location.dart";
 

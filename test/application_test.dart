@@ -1,11 +1,11 @@
 import 'package:unittest/unittest.dart';
 import 'package:unittest/mock.dart';
 
-import 'package:dddsample/dddsample/domain.dart';
-import 'package:dddsample/dddsample/application.dart';
+import 'package:dddsample/domain.dart';
+import 'package:dddsample/application/service.dart';
 
-import './domain/sample_location.dart';
-import './domain/sample_voyage.dart';
+import 'sample/sample_location.dart';
+import 'sample/sample_voyage.dart';
 
 main() => run();
 

@@ -1,6 +1,6 @@
 import 'package:unittest/unittest.dart';
 
-import "package:dddsample/dddsample/domain/location.dart";
+import "package:dddsample/location.dart";
 
 main() => run();
 

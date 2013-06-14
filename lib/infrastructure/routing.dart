@@ -2,7 +2,7 @@ library routeing;
 
 import 'package:logging/logging.dart';
 
-import 'package:dddsample/dddsample/domain.dart';
+import '../domain.dart';
 
 import 'package:dddsample/pathfinder/path_finder.dart';
 

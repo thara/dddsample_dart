@@ -2,7 +2,7 @@ library application;
 
 import 'package:logging/logging.dart';
 
-import 'package:dddsample/dddsample/domain.dart';
+import '../domain.dart';
 
 /**
  * a way to let other parts of the system know about events that have occurred.

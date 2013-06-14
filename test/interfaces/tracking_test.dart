@@ -1,13 +1,13 @@
 import 'package:unittest/unittest.dart';
 import 'package:intl/intl.dart';
 
-import 'package:dddsample/dddsample/interfaces/tracking.dart';
+import 'package:dddsample/interfaces/tracking.dart';
 
-import 'package:dddsample/dddsample/domain/cargo.dart';
-import "package:dddsample/dddsample/domain/handling.dart";
+import 'package:dddsample/cargo.dart';
+import "package:dddsample/handling.dart";
 
-import "../domain/sample_location.dart";
-import "../domain/sample_voyage.dart";
+import "../sample/sample_location.dart";
+import "../sample/sample_voyage.dart";
 
 main() => run();
 
